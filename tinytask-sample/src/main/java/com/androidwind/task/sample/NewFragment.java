@@ -43,6 +43,9 @@ public class NewFragment extends Fragment implements View.OnClickListener {
         Button btn5 = view.findViewById(R.id.btn_5);
         btn5.setOnClickListener(this);
 
+        Button btn6 = view.findViewById(R.id.btn_6);
+        btn6.setOnClickListener(this);
+
         System.out.println("[new] thread id in main: " + Thread.currentThread().getId());
 
         return view;
@@ -99,30 +102,36 @@ public class NewFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_5:
                 System.out.println("[new] with task delay");
-                TinyTaskExecutor.execute(new Task<String>() {
-                    @Override
-                    public String doInBackground() {
-                        System.out.println("[new] thread id in tinytask: " + Thread.currentThread().getId());
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        System.out.println("[new] with callback after 5 sec");
-                        return "task with sleep 5 sec";
-                    }
-
-                    @Override
-                    public void onSuccess(String s) {
-                        Toast.makeText(getActivity(), "tinytask toast", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFail(Throwable throwable) {
-
-                    }
-                }, 5000);
+                TinyTaskExecutor.execute(task, 5000);
+                break;
+            case R.id.btn_6:
+                System.out.println("[new] with remove delay task");
+                TinyTaskExecutor.removeTask(task);
                 break;
         }
     }
+
+    private Task<String> task = new Task<String>() {
+        @Override
+        public String doInBackground() {
+            System.out.println("[new] thread id in tinytask: " + Thread.currentThread().getId());
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("[new] with callback after 5 sec");
+            return "task with sleep 5 sec";
+        }
+
+        @Override
+        public void onSuccess(String s) {
+            Toast.makeText(getActivity(), "delay tinytask toast", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onFail(Throwable throwable) {
+
+        }
+    };
 }

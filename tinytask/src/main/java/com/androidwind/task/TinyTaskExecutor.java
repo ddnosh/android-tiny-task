@@ -41,6 +41,12 @@ public class TinyTaskExecutor<T> {
         mExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     }
 
+    /**
+     * add task
+     *
+     * @param callable
+     * @param <T>
+     */
     public static <T> void execute(Callable<T> callable) {
         execute(callable, 0);
     }
@@ -80,6 +86,31 @@ public class TinyTaskExecutor<T> {
         System.out.println("[new] realExecute");
     }
 
+
+    /**
+     * remove task
+     *
+     * @param callable
+     */
+    public static <T> void removeTask(final Callable<T> callable) {
+        if (callable == null) {
+            return;
+        }
+
+        Runnable delayRunnable;
+        synchronized (sDelayTasks) {
+            delayRunnable = sDelayTasks.remove(callable);
+        }
+
+        if (delayRunnable != null) {
+            getMainThreadHandler().removeCallbacks(delayRunnable);
+        }
+
+    }
+
+    /**
+     * check the future result, will block main thread, be careful.
+     */
     public static void check() {
         for (Iterator it = futureList.iterator(); it.hasNext(); ) {
             FutureTask ft = (FutureTask) it.next();
