@@ -18,3 +18,5 @@ a tiny asynchronized task library for android.
 # Usage
 
 # TODO
+1. to cancel when overtime has come;
+2. schedule task;

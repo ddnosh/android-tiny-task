@@ -1,30 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btn_fragment1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:text="Old Solution: Thread,Runnable,Handler,HandlerThread" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_fragment2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:text="New Solution: TinyTask" />
+        <Button
+            android:id="@+id/btn_fragment1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Old Solution: Thread,Runnable,Handler,HandlerThread"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_fragment2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Solution: TinyTask"
+            android:textAllCaps="false" />
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp" />
+
+    </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/fl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"/>
+        android:layout_alignParentBottom="true">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:autoLink="all"
+            android:text="www.androidiwind.com" />
+    </FrameLayout>
+
+</RelativeLayout>

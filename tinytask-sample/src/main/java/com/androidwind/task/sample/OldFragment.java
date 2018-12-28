@@ -55,6 +55,18 @@ public class OldFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0) {
+                Toast.makeText(getContext(), "old toast: " + msg.obj, Toast.LENGTH_SHORT).show();
+            } else if (msg.what == 1) {
+                Toast.makeText(getContext(), "old toast: " + msg.obj, Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
     //  init1---------------------------------------------------------------------------------------
     private void init1() {
         System.out.println("[old] thread id in main: " + Thread.currentThread().getId());
@@ -66,6 +78,7 @@ public class OldFragment extends Fragment implements View.OnClickListener {
         @Override
         public void run() {
             synchronized (this) {
+                //运行于子线程中, 处理耗时任务
                 System.out.println("[old] thread id in run: " + Thread.currentThread().getId());
                 int result = 0;
                 int i = 0;
@@ -86,24 +99,13 @@ public class OldFragment extends Fragment implements View.OnClickListener {
         }
     };
 
-    private Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 0) {
-                Toast.makeText(getContext(), "old toast: " + msg.obj, Toast.LENGTH_SHORT).show();
-            } else if (msg.what == 1) {
-                Toast.makeText(getContext(), "old toast: " + msg.obj, Toast.LENGTH_SHORT).show();
-            }
-        }
-    };
-
     //  init2---------------------------------------------------------------------------------------
     private void init2() {
         System.out.println("[old] thread id in main: " + Thread.currentThread().getId());
         new Thread() {
             @Override
             public void run() {
+                //运行于子线程中, 处理耗时任务
                 System.out.println("[old] thread id in run: " + Thread.currentThread().getId());
                 try {
                     Thread.sleep(5000);// simulate time-consuming task;
@@ -117,14 +119,11 @@ public class OldFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    //运行于主线程中, 因此不能处理耗时任务
     Runnable mRunnable2 = new Runnable() {
         @Override
         public void run() {
             System.out.println("[old] thread id in runnable: " + Thread.currentThread().getId());
-//            Message message = mHandler.obtainMessage();
-//            message.what = 1;
-//            message.obj = 999;
-//            mHandler.sendMessage(message);
             tvResult.setText("view updated, and the result is " + result);
         }
     };
@@ -137,7 +136,7 @@ public class OldFragment extends Fragment implements View.OnClickListener {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                //这个方法是运行在 handler-thread 线程中的 ，可以执行耗时操作
+                //运行于子线程handler-thread中, 处理耗时任务
                 Log.d("handler ", "消息： " + msg.what + "  线程： " + Thread.currentThread().getName());
                 try {
                     Thread.sleep(3000);
@@ -151,7 +150,7 @@ public class OldFragment extends Fragment implements View.OnClickListener {
             }
         };
 
-        //在主线程给handler发送消息
+        //给工作线程发送消息
         handler.sendEmptyMessage(1);
     }
 
@@ -166,7 +165,7 @@ public class OldFragment extends Fragment implements View.OnClickListener {
     private Runnable mRunnable4 = new Runnable() {
         @Override
         public void run() {
-            //这个方法是运行在 handler-thread 线程中的 ，可以执行耗时操作
+            //运行于子线程handler-thread中, 处理耗时任务
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
@@ -206,5 +205,6 @@ public class OldFragment extends Fragment implements View.OnClickListener {
     public void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacks(mRunnable2);
+        mHandler.removeCallbacks(mRunnable4);
     }
 }
