@@ -38,6 +38,8 @@ TinyTaskExecutor.removeTask(task);
 TinyTaskExecutor.check();
 6. post to main thread
 TinyTaskExecutor.postToMainThread(runnable, 2000);
+7. remove post to main thread
+TinyTaskExecutor.removeMainThreadRunnable(delayRunnable);
 
 # TODO
 1. to cancel when overtime has come;

@@ -164,4 +164,15 @@ public class TinyTaskExecutor<T> {
         getMainThreadHandler().postDelayed(task, delayMillis);
     }
 
+    /**
+     * remove delay task from main thread
+     *
+     * @param task
+     */
+    public static void removeMainThreadRunnable(Runnable task) {
+        if (task == null) return;
+
+        getMainThreadHandler().removeCallbacks(task);
+    }
+
 }

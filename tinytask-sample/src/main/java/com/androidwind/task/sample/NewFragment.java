@@ -49,6 +49,9 @@ public class NewFragment extends Fragment implements View.OnClickListener {
         Button btn7 = view.findViewById(R.id.btn_7);
         btn7.setOnClickListener(this);
 
+        Button btn8 = view.findViewById(R.id.btn_8);
+        btn8.setOnClickListener(this);
+
         System.out.println("[new] thread id in main: " + Thread.currentThread().getId());
 
         return view;
@@ -105,25 +108,24 @@ public class NewFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_5:
                 System.out.println("[new] with task delay");
-                TinyTaskExecutor.execute(task, 5000);
+                TinyTaskExecutor.execute(delayTask, 5000);
                 break;
             case R.id.btn_6:
                 System.out.println("[new] with remove delay task");
-                TinyTaskExecutor.removeTask(task);
+                TinyTaskExecutor.removeTask(delayTask);
                 break;
             case R.id.btn_7:
                 System.out.println("[new] post to main thread");
-                TinyTaskExecutor.postToMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(), "post to main thread toast", Toast.LENGTH_SHORT).show();
-                    }
-                }, 2000);
+                TinyTaskExecutor.postToMainThread(delayRunnable, 2000);
+                break;
+            case R.id.btn_8:
+                System.out.println("[new] remove post to main thread");
+                TinyTaskExecutor.removeMainThreadRunnable(delayRunnable);
                 break;
         }
     }
 
-    private Task<String> task = new Task<String>() {
+    private Task<String> delayTask = new Task<String>() {
         @Override
         public String doInBackground() {
             System.out.println("[new] thread id in tinytask: " + Thread.currentThread().getId());
@@ -144,6 +146,13 @@ public class NewFragment extends Fragment implements View.OnClickListener {
         @Override
         public void onFail(Throwable throwable) {
 
+        }
+    };
+
+    private Runnable delayRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Toast.makeText(getActivity(), "post to main thread toast", Toast.LENGTH_SHORT).show();
         }
     };
 }
