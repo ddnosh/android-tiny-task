@@ -36,7 +36,10 @@ TinyTaskExecutor.execute(task, 5000);
 TinyTaskExecutor.removeTask(task);
 5. check a task(not recommend)
 TinyTaskExecutor.check();
+6. post to main thread
+TinyTaskExecutor.postToMainThread(runnable, 2000);
 
 # TODO
 1. to cancel when overtime has come;
 2. schedule task;
+3. task priority;

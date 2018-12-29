@@ -49,4 +49,11 @@
         android:textAllCaps="false"
         android:text="TinyTask: remove delay task"/>
 
+    <Button
+        android:id="@+id/btn_7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="TinyTask: post to main thread"/>
+
 </LinearLayout>

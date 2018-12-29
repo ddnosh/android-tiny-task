@@ -141,4 +141,27 @@ public class TinyTaskExecutor<T> {
         }
     }
 
+    /**
+     * post to main thread, do not handle time-consuming job
+     *
+     * @param task
+     */
+    public static void postToMainThread(final Runnable task) {
+        postToMainThread(task, 0);
+    }
+
+    /**
+     * post to main thread, do not handle time-consuming job
+     *
+     * @param task
+     * @param delayMillis
+     */
+    public static void postToMainThread(final Runnable task, long delayMillis) {
+        if(task == null) {
+            return;
+        }
+
+        getMainThreadHandler().postDelayed(task, delayMillis);
+    }
+
 }

@@ -22,6 +22,10 @@ android {
         }
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 dependencies {
@@ -32,3 +36,23 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+//打包任务
+task makeJar(type: Copy) {
+    //删除旧的jar包
+    delete 'build/libs/tinytask.jar'
+    //从哪里打包class文件
+    from('build/intermediates/packaged-classes/debug/')
+    //打包到jar后的目录结构
+    into('build/libs/')
+    //包含的jar包
+    include('classes.jar')
+    //去掉不需要打包的目录和文件
+    exclude('BuildConfig.class', 'R.class')
+    //去掉R$开头的文件
+    exclude { it.name.startsWith('R$'); }
+    //重命名jar包为tinytask
+    rename ('classes.jar', 'tinytask.jar')
+}
+
+makeJar.dependsOn(build)
