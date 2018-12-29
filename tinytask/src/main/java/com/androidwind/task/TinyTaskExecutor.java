@@ -22,7 +22,7 @@ public class TinyTaskExecutor<T> {
     private volatile static TinyTaskExecutor sTinyTaskExecutor;
 
     private ExecutorService mExecutor;
-    private Handler mMainThreadHandler = new Handler(Looper.getMainLooper());
+    private volatile Handler mMainThreadHandler = new Handler(Looper.getMainLooper());
     private static HashMap<Callable, Runnable> sDelayTasks = new HashMap<>();
 
     //collect futuretask
@@ -39,6 +39,14 @@ public class TinyTaskExecutor<T> {
 
     public TinyTaskExecutor() {
         mExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    }
+
+    private static ExecutorService getExecutor() {
+        return getInstance().mExecutor;
+    }
+
+    public static Handler getMainThreadHandler() {
+        return getInstance().mMainThreadHandler;
     }
 
     /**
@@ -79,13 +87,18 @@ public class TinyTaskExecutor<T> {
         }
     }
 
+    /**
+     * real executor
+     *
+     * @param callable
+     * @param <T>
+     */
     private static <T> void realExecute(Callable<T> callable) {
         FutureTask<T> futureTask = new FutureTask<T>(callable);
         getExecutor().submit(futureTask);
         futureList.add(futureTask);
         System.out.println("[new] realExecute");
     }
-
 
     /**
      * remove task
@@ -128,11 +141,4 @@ public class TinyTaskExecutor<T> {
         }
     }
 
-    private static ExecutorService getExecutor() {
-        return getInstance().mExecutor;
-    }
-
-    public static Handler getMainThreadHandler() {
-        return getInstance().mMainThreadHandler;
-    }
 }
