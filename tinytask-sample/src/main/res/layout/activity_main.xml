@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:autoLink="all"
-            android:text="www.androidiwind.com" />
+            android:text="www.androidwind.com" />
     </FrameLayout>
 
 </RelativeLayout>
