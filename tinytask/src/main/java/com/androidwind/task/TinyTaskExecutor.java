@@ -2,6 +2,7 @@ package com.androidwind.task;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Process;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,14 +11,18 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.RunnableFuture;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ddnosh
  * @website http://blog.csdn.net/ddnosh
  */
-public class TinyTaskExecutor<T> {
+public class TinyTaskExecutor {
 
     private volatile static TinyTaskExecutor sTinyTaskExecutor;
 
@@ -27,6 +32,10 @@ public class TinyTaskExecutor<T> {
 
     //collect futuretask
     private static List futureList = new ArrayList<>();
+    //task priority
+    public static final int PRIORITY_HIGH = Process.THREAD_PRIORITY_DEFAULT;
+    public static final int PRIORITY_NORMAL = Process.THREAD_PRIORITY_BACKGROUND;
+    public static final int PRIORITY_LOWEST = Process.THREAD_PRIORITY_LOWEST;
 
     public static TinyTaskExecutor getInstance() {
         if (sTinyTaskExecutor == null) {
@@ -38,7 +47,19 @@ public class TinyTaskExecutor<T> {
     }
 
     public TinyTaskExecutor() {
-        mExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+//        mExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        mExecutor = new ThreadPoolExecutor(
+                Runtime.getRuntime().availableProcessors(),
+                Runtime.getRuntime().availableProcessors(),
+                Long.MAX_VALUE, /* timeout */
+                TimeUnit.NANOSECONDS,
+                new PriorityBlockingQueue<Runnable>(),
+                new ThreadPoolExecutor.DiscardOldestPolicy()) {
+            @Override
+            protected <T> RunnableFuture<T> newTaskFor(Callable<T> callable) {
+                return new ComparableFutureTask(callable);
+            }
+        };
     }
 
     private static ExecutorService getExecutor() {
@@ -53,13 +74,12 @@ public class TinyTaskExecutor<T> {
      * add task
      *
      * @param callable
-     * @param <T>
      */
-    public static <T> void execute(Callable<T> callable) {
+    public static void execute(TaskCallable callable) {
         execute(callable, 0);
     }
 
-    public static <T> void execute(final Callable<T> callable, long delayMillisecond) {
+    public static void execute(final Callable callable, long delayMillisecond) {
         if (callable == null) return;
         if (delayMillisecond < 0) return;
 
@@ -91,12 +111,11 @@ public class TinyTaskExecutor<T> {
      * real executor
      *
      * @param callable
-     * @param <T>
      */
-    private static <T> void realExecute(Callable<T> callable) {
-        FutureTask<T> futureTask = new FutureTask<T>(callable);
-        getExecutor().submit(futureTask);
-        futureList.add(futureTask);
+    private static void realExecute(Callable callable) {
+//        ComparableFutureTask futureTask = new ComparableFutureTask(callable);
+        Future future = getExecutor().submit(callable);
+        futureList.add(future);
         System.out.println("[new] realExecute");
     }
 
@@ -105,7 +124,7 @@ public class TinyTaskExecutor<T> {
      *
      * @param callable
      */
-    public static <T> void removeTask(final Callable<T> callable) {
+    public static void removeTask(final Callable callable) {
         if (callable == null) {
             return;
         }

@@ -12,6 +12,7 @@ a tiny asynchronized task library for android.
 2. handle asynchronized task first in background and then to front;
 3. handle asynchronized task with delay;
 4. cancel handle asynchronized task.
+5. set task priority.
 
 # Technology
 1. Desing Pattern
@@ -40,8 +41,11 @@ TinyTaskExecutor.check();
 TinyTaskExecutor.postToMainThread(runnable, 2000);
 7. remove post to main thread
 TinyTaskExecutor.removeMainThreadRunnable(delayRunnable);
+8. set task priority
+new TestTask(TinyTaskExecutor.PRIORITY_LOWEST);
+TinyTaskExecutor.execute(s1);
 
 # TODO
 1. to cancel when overtime has come;
 2. schedule task;
-3. task priority;
+3. ~~task priority~~;

@@ -1,12 +1,17 @@
 package com.androidwind.task;
 
-import java.util.concurrent.Callable;
-
 /**
  * @author ddnosh
  * @website http://blog.csdn.net/ddnosh
  */
-public abstract class Task<T> implements Callable<T> {
+public abstract class AdvancedTask<T> extends TaskCallable {
+
+    public AdvancedTask() {
+    }
+
+    public AdvancedTask(int priority) {
+        super(priority);
+    }
 
     public abstract T doInBackground();
 
@@ -15,7 +20,8 @@ public abstract class Task<T> implements Callable<T> {
     public abstract void onFail(Throwable throwable);
 
     @Override
-    public T call() throws Exception{//give exception to get().
+    public T call() throws Exception {//give exception to get().
+        System.out.println("compare: priority = " + getPriority() + ", thread id = " + Thread.currentThread().getId());
         try {
             final T t = doInBackground();
             TinyTaskExecutor.getMainThreadHandler().post(new Runnable() {

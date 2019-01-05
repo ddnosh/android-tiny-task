@@ -63,4 +63,11 @@
         android:textAllCaps="false"
         android:text="TinyTask: remove post to main thread"/>
 
+    <Button
+        android:id="@+id/btn_9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="TinyTask: priority test"/>
+
 </LinearLayout>
