@@ -8,19 +8,23 @@ package com.androidwind.task;
  */
 public abstract class SimpleTask<T> extends TaskCallable {
 
+
+    /**
+     * default priority is Process.THREAD_PRIORITY_DEFAULT;
+     */
     public SimpleTask() {
         super();
     }
 
-    public SimpleTask(int priority) {
-        super(priority);
+    public SimpleTask(int priority, String taskName) {
+        super(priority, taskName);
     }
 
     public abstract T doInBackground();
 
     @Override
     public T call() throws Exception {//give exception to get().
-        System.out.println("compare: priority = " + getPriority() + ", thread id = " + Thread.currentThread().getId());
+        System.out.println("compare: priority = " + getPriority() + ", taskName = " + getTaskName());
         final T t = doInBackground();
         return t;
     }

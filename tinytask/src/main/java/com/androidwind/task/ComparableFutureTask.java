@@ -20,7 +20,10 @@ public class ComparableFutureTask extends FutureTask implements Comparable<Compa
     @Override
     public int compareTo(ComparableFutureTask second) {
         // 时间越小越优先
-        System.out.println("compare: this.priority={" + ((TaskCallable) getCallable()).getPriority() + "}, second.priority={" + ((TaskCallable) second.getCallable()).getPriority() + "}" + ", thread id = " + Thread.currentThread().getId());
+        System.out.println("compare: this.priority = " + ((TaskCallable) getCallable()).getPriority()
+                + ", this.taskName = " + ((TaskCallable) getCallable()).getTaskName()
+                + ", second.priority = " + ((TaskCallable) second.getCallable()).getPriority()
+                + ", second.taskName = " + ((TaskCallable) second.getCallable()).getTaskName());
         if (((TaskCallable) getCallable()).getPriority() < ((TaskCallable) second.getCallable()).getPriority()) {
             return -1;
         } else if (((TaskCallable) getCallable()).getPriority() > ((TaskCallable) second.getCallable()).getPriority()) {

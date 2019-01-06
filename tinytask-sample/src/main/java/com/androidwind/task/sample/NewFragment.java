@@ -127,16 +127,16 @@ public class NewFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_9:
                 System.out.println("[new] priority test");
-                SimpleTask s1 = new TestTask(TinyTaskExecutor.PRIORITY_LOWEST);
-                SimpleTask s2 = new TestTask(TinyTaskExecutor.PRIORITY_NORMAL);
-                SimpleTask s3 = new TestTask(TinyTaskExecutor.PRIORITY_HIGH);
-                SimpleTask s4 = new TestTask(TinyTaskExecutor.PRIORITY_LOWEST);
-                SimpleTask s5 = new TestTask(TinyTaskExecutor.PRIORITY_NORMAL);
-                SimpleTask s6 = new TestTask(TinyTaskExecutor.PRIORITY_HIGH);
-                SimpleTask s7 = new TestTask(TinyTaskExecutor.PRIORITY_LOWEST);
-                SimpleTask s8 = new TestTask(TinyTaskExecutor.PRIORITY_NORMAL);
-                SimpleTask s9 = new TestTask(TinyTaskExecutor.PRIORITY_HIGH);
-                SimpleTask s10 = new TestTask(TinyTaskExecutor.PRIORITY_LOWEST);
+                SimpleTask s1 = new TestTask(TinyTaskExecutor.PRIORITY_LOWEST, "s1");
+                SimpleTask s2 = new TestTask(TinyTaskExecutor.PRIORITY_NORMAL, "s2");
+                SimpleTask s3 = new TestTask(TinyTaskExecutor.PRIORITY_HIGH, "s3");
+                SimpleTask s4 = new TestTask(TinyTaskExecutor.PRIORITY_LOWEST, "s4");
+                SimpleTask s5 = new TestTask(TinyTaskExecutor.PRIORITY_NORMAL, "s5");
+                SimpleTask s6 = new TestTask(TinyTaskExecutor.PRIORITY_HIGH, "s6");
+                SimpleTask s7 = new TestTask(TinyTaskExecutor.PRIORITY_LOWEST, "s7");
+                SimpleTask s8 = new TestTask(TinyTaskExecutor.PRIORITY_NORMAL, "s8");
+                SimpleTask s9 = new TestTask(TinyTaskExecutor.PRIORITY_HIGH, "s9");
+                SimpleTask s10 = new TestTask(TinyTaskExecutor.PRIORITY_LOWEST, "s10");
                 TinyTaskExecutor.execute(s1);
                 TinyTaskExecutor.execute(s2);
                 TinyTaskExecutor.execute(s3);
@@ -186,8 +186,8 @@ public class NewFragment extends Fragment implements View.OnClickListener {
         public TestTask() {
         }
 
-        public TestTask(int priority) {
-            super(priority);
+        public TestTask(int priority, String taskName) {
+            super(priority, taskName);
         }
 
         @Override

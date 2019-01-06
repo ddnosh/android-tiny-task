@@ -9,8 +9,8 @@ public abstract class AdvancedTask<T> extends TaskCallable {
     public AdvancedTask() {
     }
 
-    public AdvancedTask(int priority) {
-        super(priority);
+    public AdvancedTask(int priority, String taskName) {
+        super(priority, taskName);
     }
 
     public abstract T doInBackground();
@@ -21,7 +21,7 @@ public abstract class AdvancedTask<T> extends TaskCallable {
 
     @Override
     public T call() throws Exception {//give exception to get().
-        System.out.println("compare: priority = " + getPriority() + ", thread id = " + Thread.currentThread().getId());
+        System.out.println("compare: priority = " + getPriority() + ", taskName = " + getTaskName());
         try {
             final T t = doInBackground();
             TinyTaskExecutor.getMainThreadHandler().post(new Runnable() {

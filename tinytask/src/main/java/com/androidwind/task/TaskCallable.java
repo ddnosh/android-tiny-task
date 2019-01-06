@@ -12,16 +12,22 @@ import java.util.concurrent.Callable;
  */
 public abstract class TaskCallable implements Callable {
     private int priority;
+    private String taskName;
 
     public int getPriority() {
         return priority;
     }
 
+    public String getTaskName() {
+        return taskName;
+    }
+
     public TaskCallable() {
     }
 
-    public TaskCallable(int priority) {
+    public TaskCallable(int priority, String taskName) {
         this.priority = priority;
+        this.taskName = taskName;
     }
 
 }
