@@ -2,6 +2,8 @@ package com.androidwind.task;
 
 import android.support.annotation.NonNull;
 
+import com.androidwind.log.TinyLog;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
@@ -20,7 +22,7 @@ public class ComparableFutureTask extends FutureTask implements Comparable<Compa
     @Override
     public int compareTo(ComparableFutureTask second) {
         // 时间越小越优先
-        System.out.println("compare: this.priority = " + ((TaskCallable) getCallable()).getPriority()
+        TinyLog.d( "compare: this.priority = " + ((TaskCallable) getCallable()).getPriority()
                 + ", this.taskName = " + ((TaskCallable) getCallable()).getTaskName()
                 + ", second.priority = " + ((TaskCallable) second.getCallable()).getPriority()
                 + ", second.taskName = " + ((TaskCallable) second.getCallable()).getTaskName());

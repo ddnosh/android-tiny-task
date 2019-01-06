@@ -14,7 +14,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -48,18 +47,13 @@ public class TinyTaskExecutor {
 
     public TinyTaskExecutor() {
 //        mExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        mExecutor = new ThreadPoolExecutor(
+        mExecutor = new TaskThreadPoolExecutor(
                 Runtime.getRuntime().availableProcessors(),
                 Runtime.getRuntime().availableProcessors(),
                 Long.MAX_VALUE, /* timeout */
                 TimeUnit.NANOSECONDS,
                 new PriorityBlockingQueue<Runnable>(),
-                new ThreadPoolExecutor.DiscardOldestPolicy()) {
-            @Override
-            protected <T> RunnableFuture<T> newTaskFor(Callable<T> callable) {
-                return new ComparableFutureTask(callable);
-            }
-        };
+                new ThreadPoolExecutor.DiscardOldestPolicy());
     }
 
     private static ExecutorService getExecutor() {
