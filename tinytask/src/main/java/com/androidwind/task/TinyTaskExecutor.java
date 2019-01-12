@@ -110,7 +110,7 @@ public class TinyTaskExecutor {
 //        ComparableFutureTask futureTask = new ComparableFutureTask(callable);
         Future future = getExecutor().submit(callable);
         futureList.add(future);
-        System.out.println("[new] realExecute");
+        System.out.println("[TinyTaskExecutor] realExecute");
     }
 
     /**
@@ -143,7 +143,7 @@ public class TinyTaskExecutor {
             if (!ft.isDone()) {
                 try {
                     //if use get(), you will block main thread util the sub thread finished, unless you need the result of sub thread.
-                    System.out.println("the check result is: " + ft.get());
+                    System.out.println("[TinyTaskExecutor] the check result is: " + ft.get());
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {

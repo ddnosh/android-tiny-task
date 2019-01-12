@@ -1,6 +1,6 @@
 package com.androidwind.task;
 
-import com.androidwind.log.TinyLog;
+import android.util.Log;
 
 /**
  * only handle task in background
@@ -10,6 +10,7 @@ import com.androidwind.log.TinyLog;
  */
 public abstract class SimpleTask<T> extends TaskCallable {
 
+    private final static String TAG = "SimpleTask";
 
     /**
      * default priority is Process.THREAD_PRIORITY_DEFAULT;
@@ -26,7 +27,7 @@ public abstract class SimpleTask<T> extends TaskCallable {
 
     @Override
     public T call() throws Exception {//give exception to get().
-        TinyLog.d( "compare: priority = " + getPriority() + ", taskName = " + getTaskName());
+        System.out.println("[SimpleTask] compare: priority = " + getPriority() + ", taskName = " + getTaskName());
         final T t = doInBackground();
         return t;
     }
