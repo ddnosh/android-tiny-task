@@ -9,6 +9,10 @@ public abstract class AdvancedTask<T> extends TaskCallable {
     public AdvancedTask() {
     }
 
+    public AdvancedTask(int priority) {
+        super(priority);
+    }
+
     public AdvancedTask(int priority, String taskName) {
         super(priority, taskName);
     }

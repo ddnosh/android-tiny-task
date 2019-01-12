@@ -1,7 +1,5 @@
 package com.androidwind.task;
 
-import android.util.Log;
-
 /**
  * only handle task in background
  *
@@ -17,6 +15,10 @@ public abstract class SimpleTask<T> extends TaskCallable {
      */
     public SimpleTask() {
         super();
+    }
+
+    public SimpleTask(int priority) {
+        super(priority);
     }
 
     public SimpleTask(int priority, String taskName) {
