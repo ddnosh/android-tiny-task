@@ -49,3 +49,5 @@ TinyTaskExecutor.execute(s1);
 1. to cancel when overtime has come;
 2. schedule task;
 3. ~~(done in 20190105) task priority~~;
+4. BlockQueue;
+5. customized thread pool and queue;

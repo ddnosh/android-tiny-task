@@ -27,7 +27,9 @@ dependencies {
 
     compile project(':tinytask')
 
-    compile files('libs/tinylog.jar')
+//    compile files('libs/tinylog.jar')
+    compile 'com.androidwind:tinylog:1.0.0'
+    compile 'com.airbnb.android:lottie:2.5.4'
 }
 
 repositories {

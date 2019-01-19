@@ -25,6 +25,13 @@
             android:text="New Solution: TinyTask"
             android:textAllCaps="false" />
 
+        <Button
+            android:id="@+id/btn_fragment3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Extention: Executor"
+            android:textAllCaps="false" />
+
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
@@ -33,6 +40,6 @@
 
     </LinearLayout>
 
-    <include layout="@layout/include_description"/>
+    <include layout="@layout/include_description" />
 
 </RelativeLayout>

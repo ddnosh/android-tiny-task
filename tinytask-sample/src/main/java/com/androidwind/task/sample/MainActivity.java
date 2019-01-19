@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Fragment mOldFragment, mNewFragment;
+    private Fragment mOldFragment, mNewFragment, mExecutorFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +20,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn2 = findViewById(R.id.btn_fragment2);
         btn2.setOnClickListener(this);
+
+        Button btn3 = findViewById(R.id.btn_fragment3);
+        btn3.setOnClickListener(this);
     }
 
     @Override
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_fragment2:
                 updateNewFragment();
+                break;
+            case R.id.btn_fragment3:
+                updateExecutorFragment();
                 break;
         }
     }
@@ -49,6 +55,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mNewFragment = NewFragment.newInstance();
         }
         ft.replace(R.id.fragment_container, mNewFragment);
+        ft.commit();
+    }
+
+    private void updateExecutorFragment() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (mExecutorFragment == null) {
+            mExecutorFragment = ExecutorFragment.newInstance();
+        }
+        ft.replace(R.id.fragment_container, mExecutorFragment);
         ft.commit();
     }
 }
