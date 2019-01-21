@@ -11,6 +11,7 @@ import com.androidwind.task.TaskCallable;
 import com.androidwind.task.TinyTaskExecutor;
 
 import java.util.ArrayDeque;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * @author ddnosh
@@ -29,7 +30,8 @@ public class SynchronizedFragment extends Fragment implements View.OnClickListen
         View view = inflater.inflate(R.layout.activity_fragment_synchronized, container, false);
         Button btn1 = view.findViewById(R.id.btn_1);
         btn1.setOnClickListener(this);
-        System.out.println("[new] thread id in main: " + Thread.currentThread().getId());
+        Button btn2 = view.findViewById(R.id.btn_2);
+        btn2.setOnClickListener(this);
         return view;
     }
 
@@ -37,12 +39,15 @@ public class SynchronizedFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_1:
-                test();
+                test1();
+                break;
+            case R.id.btn_2:
+                test2();
                 break;
         }
     }
 
-//    private void test() {
+//    private void test1() {
 //        for (int i = 0; i < 10; i++) {
 //            execute(new SimpleTask<String>(i + "") {
 //                @Override
@@ -86,10 +91,11 @@ public class SynchronizedFragment extends Fragment implements View.OnClickListen
 //        }
 //    }
 
-    private void test() {
+    //----------------------------------------------------------------------------------------------
+    private void test1() {
         for (int i = 0; i < 10; i++) {
             final int j = i;
-            execute(new Runnable() {
+            execute1(new Runnable() {
                 @Override
                 public void run() {
                     System.out.println("The taskName is :" + (j + 1));
@@ -106,7 +112,7 @@ public class SynchronizedFragment extends Fragment implements View.OnClickListen
     private TaskCallable mActive;
     private ArrayDeque<TaskCallable> mArrayDeque = new ArrayDeque<>();
 
-    public synchronized void execute(final Runnable r) {
+    public synchronized void execute1(final Runnable r) {
         mArrayDeque.offer(new TaskCallable() {
             @Override
             public Object call() throws Exception {
@@ -127,6 +133,54 @@ public class SynchronizedFragment extends Fragment implements View.OnClickListen
     private void scheduleNext() {
         if ((mActive = mArrayDeque.poll()) != null) {
             TinyTaskExecutor.execute(mActive);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+
+    final ArrayBlockingQueue<Runnable> valve = new ArrayBlockingQueue<>(1);
+
+    private void test2() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 10; i++) {
+                    final int j = i;
+                    execute2(new Runnable() {
+                        @Override
+                        public void run() {
+                            System.out.println("The taskName is :" + (j + 1));
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    Runnable s = null;
+                    try {
+                        s = valve.take();//when the queue is empty, the thread will be blocked util the blank queue comes a task
+                        s.run();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    public synchronized void execute2(final Runnable r) {
+        try {
+            valve.put(r);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

@@ -12,6 +12,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
-        android:text="Synchronized Task"/>
+        android:text="Synchronized Task: no blocking queue"/>
+
+    <Button
+        android:id="@+id/btn_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Synchronized Task: blocking queue"/>
 
 </LinearLayout>
