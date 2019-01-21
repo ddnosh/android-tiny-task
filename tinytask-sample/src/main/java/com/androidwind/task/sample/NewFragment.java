@@ -100,7 +100,7 @@ public class NewFragment extends Fragment implements View.OnClickListener {
 
                     @Override
                     public void onSuccess(String s) {
-                        Toast.makeText(getActivity(), "tinytask toast", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

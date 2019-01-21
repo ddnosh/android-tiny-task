@@ -21,6 +21,10 @@ public abstract class SimpleTask<T> extends TaskCallable {
         super(priority);
     }
 
+    public SimpleTask(String taskName) {
+        super(taskName);
+    }
+
     public SimpleTask(int priority, String taskName) {
         super(priority, taskName);
     }

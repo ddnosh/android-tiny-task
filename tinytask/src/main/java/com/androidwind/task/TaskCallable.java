@@ -29,6 +29,10 @@ public abstract class TaskCallable implements Callable {
         this.priority = priority;
     }
 
+    public TaskCallable(String taskName) {
+        this.taskName = taskName;
+    }
+
     public TaskCallable(int priority, String taskName) {
         this.priority = priority;
         this.taskName = taskName;

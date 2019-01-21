@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Fragment mOldFragment, mNewFragment, mExecutorFragment;
+    private Fragment mOldFragment, mNewFragment, mExecutorFragment, mSynchronizedFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = findViewById(R.id.btn_fragment3);
         btn3.setOnClickListener(this);
+
+        Button btn4 = findViewById(R.id.btn_fragment4);
+        btn4.setOnClickListener(this);
     }
 
     @Override
@@ -36,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_fragment3:
                 updateExecutorFragment();
+                break;
+            case R.id.btn_fragment4:
+                updateSynchronizedFragment();
                 break;
         }
     }
@@ -62,6 +68,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (mExecutorFragment == null) {
             mExecutorFragment = ExecutorFragment.newInstance();
+        }
+        ft.replace(R.id.fragment_container, mExecutorFragment);
+        ft.commit();
+    }
+
+    private void updateSynchronizedFragment() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (mExecutorFragment == null) {
+            mExecutorFragment = SynchronizedFragment.newInstance();
         }
         ft.replace(R.id.fragment_container, mExecutorFragment);
         ft.commit();

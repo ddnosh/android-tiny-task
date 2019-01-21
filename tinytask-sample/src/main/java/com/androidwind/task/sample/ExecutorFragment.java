@@ -61,6 +61,8 @@ public class ExecutorFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_1:
                 BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
+                //if use LinkedBlockingQueue, the maximumPoolSize is unavailable,
+                //if use ArrayBlockingQueue, the maximumPoolSize is available.
                 ThreadPoolExecutor executor2 = new ThreadPoolExecutor(2, 6, 1, TimeUnit.DAYS, queue);
                 for (int i = 0; i < 10; i++) {
 //                    executor.execute(new Thread(new ThreadPoolRunnable(), "Test".concat(""+i)));
