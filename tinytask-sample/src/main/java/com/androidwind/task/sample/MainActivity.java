@@ -75,10 +75,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void updateSynchronizedFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (mExecutorFragment == null) {
-            mExecutorFragment = SynchronizedFragment.newInstance();
+        if (mSynchronizedFragment == null) {
+            mSynchronizedFragment = SynchronizedFragment.newInstance();
         }
-        ft.replace(R.id.fragment_container, mExecutorFragment);
+        ft.replace(R.id.fragment_container, mSynchronizedFragment);
         ft.commit();
     }
 }

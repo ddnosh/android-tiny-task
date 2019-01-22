@@ -60,22 +60,26 @@ public class ExecutorFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_1:
-                BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
-                //if use LinkedBlockingQueue, the maximumPoolSize is unavailable,
-                //if use ArrayBlockingQueue, the maximumPoolSize is available.
-                ThreadPoolExecutor executor2 = new ThreadPoolExecutor(2, 6, 1, TimeUnit.DAYS, queue);
-                for (int i = 0; i < 10; i++) {
-//                    executor.execute(new Thread(new ThreadPoolRunnable(), "Test".concat(""+i)));
-                    executor2.execute(new ThreadPoolRunnable("[Test-Runnable]".concat(""+i)));
-                    int threadSize = queue.size();
-                    System.out.println("[Test-Thread]线程队列大小为-->"+threadSize);
-                }
-                executor2.shutdown();
+                test1();
                 break;
             case R.id.btn_2:
                 test2();
                 break;
         }
+    }
+
+    private void test1() {
+        BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
+        //if use LinkedBlockingQueue, the maximumPoolSize is unavailable,
+        //if use ArrayBlockingQueue, the maximumPoolSize is available.
+        ThreadPoolExecutor executor2 = new ThreadPoolExecutor(2, 6, 1, TimeUnit.DAYS, queue);
+        for (int i = 0; i < 10; i++) {
+//                    executor.execute(new Thread(new ThreadPoolRunnable(), "Test".concat(""+i)));
+            executor2.execute(new ThreadPoolRunnable("[Test-Runnable]".concat(""+i)));
+            int threadSize = queue.size();
+            System.out.println("[Test-Thread]线程队列大小为-->"+threadSize);
+        }
+        executor2.shutdown();
     }
 
     private void test2() {

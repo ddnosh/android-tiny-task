@@ -12,13 +12,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
-        android:text="Synchronized Task: no blocking queue"/>
+        android:text="Synchronized Task: ArrayDeque"/>
 
     <Button
         android:id="@+id/btn_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
-        android:text="Synchronized Task: blocking queue"/>
+        android:text="Synchronized Task: ArrayBlockingQueue"/>
+
+    <Button
+        android:id="@+id/btn_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Synchronized Task: one by one"/>
+
+    <Button
+        android:id="@+id/btn_anim_1"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:textAllCaps="false"
+        android:text="ValueAnimator 1"/>
+
+    <Button
+        android:id="@+id/btn_anim_2"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:textAllCaps="false"
+        android:text="ValueAnimator 2"/>
+
+    <Button
+        android:id="@+id/btn_anim_3"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:textAllCaps="false"
+        android:text="ValueAnimator 3"/>
 
 </LinearLayout>
