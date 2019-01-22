@@ -24,7 +24,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class SynchronizedFragment extends Fragment implements View.OnClickListener {
 
-    private ValueAnimator valueAnimator1, valueAnimator2, valueAnimator3;
+    private ValueAnimator valueAnimator1, valueAnimator2, valueAnimator3, valueAnimator4;
 
     public static SynchronizedFragment newInstance() {
         SynchronizedFragment fragment = new SynchronizedFragment();
@@ -41,6 +41,8 @@ public class SynchronizedFragment extends Fragment implements View.OnClickListen
         btn2.setOnClickListener(this);
         Button btn3 = view.findViewById(R.id.btn_3);
         btn3.setOnClickListener(this);
+        Button btn4 = view.findViewById(R.id.btn_add);
+        btn4.setOnClickListener(this);
         initView(view);
         return view;
     }
@@ -145,6 +147,40 @@ public class SynchronizedFragment extends Fragment implements View.OnClickListen
 
             }
         });
+        final Button btnAnim4 = view.findViewById(R.id.btn_anim_4);
+        valueAnimator4 = new ValueAnimator();
+        valueAnimator4.setFloatValues(1.0f,0.1f);
+        final float alpha = btnAnim4.getAlpha();
+        valueAnimator4.setDuration(3000);
+        valueAnimator4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                float rate = (float) animator.getAnimatedValue();
+                btnAnim4.setAlpha(rate*alpha);
+            }
+        });
+        valueAnimator4.addListener(new ValueAnimator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                System.out.println("[OneByOne]anim played 4 secs");
+                TinySyncExecutor.getInstance().finish();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
     @Override
@@ -158,6 +194,15 @@ public class SynchronizedFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.btn_3:
                 test3();
+                break;
+            case R.id.btn_add:
+                final BaseSyncTask task = new BaseSyncTask() {
+                    @Override
+                    public void doTask() {
+                        valueAnimator4.start();
+                    }
+                };
+                TinySyncExecutor.getInstance().enqueue(task);
                 break;
         }
     }

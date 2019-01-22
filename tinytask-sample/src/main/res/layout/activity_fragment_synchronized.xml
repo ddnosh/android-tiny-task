@@ -1,52 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:fadingEdge="vertical"
+    android:fadingEdgeLength="20dp"
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:requiresFadingEdge="vertical">
 
-    <Button
-        android:id="@+id/btn_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:text="Synchronized Task: ArrayDeque"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btn_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:text="Synchronized Task: ArrayBlockingQueue"/>
+        <Button
+            android:id="@+id/btn_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Synchronized Task: ArrayDeque"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btn_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:text="Synchronized Task: one by one"/>
+        <Button
+            android:id="@+id/btn_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Synchronized Task: ArrayBlockingQueue"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btn_anim_1"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:textAllCaps="false"
-        android:text="ValueAnimator 1"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btn_anim_2"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:textAllCaps="false"
-        android:text="ValueAnimator 2"/>
+            <Button
+                android:id="@+id/btn_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Synchronized Task: one by one"
+                android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btn_anim_3"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:textAllCaps="false"
-        android:text="ValueAnimator 3"/>
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="add a task to queue"
+                android:textAllCaps="false" />
+        </LinearLayout>
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_anim_1"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
+            android:text="ValueAnimator 1"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_anim_2"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="ValueAnimator 2"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_anim_3"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="ValueAnimator 3"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_anim_4"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:text="ValueAnimator 4"
+            android:textAllCaps="false" />
+    </LinearLayout>
+</ScrollView>
