@@ -1,5 +1,8 @@
 # android-tiny-task
-a tiny asynchronized task library for android.
+[![Download](https://api.bintray.com/packages/ddnosh/maven/tinytask/images/download.svg) ](https://bintray.com/ddnosh/maven/tinytask/_latestVersion)  
+A tiny asynchronized task library for android.  
+
+![在这里插入图片描述](https://github.com/ddnosh/githubusercontent/blob/master/image/android-tiny-task-readme.jpg?raw=true)
 
 # Solution
 1. we should avoid to use thread, runnable, handler, and AsyncTask;
@@ -12,7 +15,7 @@ a tiny asynchronized task library for android.
 2. handle asynchronized task first in background and then to front;
 3. handle asynchronized task with delay;
 4. cancel handle asynchronized task.
-5. (20190106) set task priority.
+5. set task priority.
 
 # Technology
 1. Desing Pattern
