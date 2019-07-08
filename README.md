@@ -16,7 +16,7 @@ a tiny asynchronized task library for android.
 
 # Technology
 1. Desing Pattern
-    1. single pattern
+    1. Singleton Pattern
     2. static
 2. Skill Point
     1. ExecutorService
@@ -30,7 +30,7 @@ a tiny asynchronized task library for android.
 1. only run in background
 TinyTaskExecutor.execute(new SimpleTask<T>() { ... });
 2. run in background and then go back to main ui;
-TinyTaskExecutor.execute(new Task<String>() { ... });
+TinyTaskExecutor.execute(new AdvancedTask<String>() { ... });
 3. run with delay
 TinyTaskExecutor.execute(task, 5000);
 4. remove delay task
@@ -49,5 +49,5 @@ TinyTaskExecutor.execute(s1);
 1. to cancel when overtime has come;
 2. schedule task;
 3. ~~(done in 20190105) task priority~~;
-4. BlockQueue;
-5. customized thread pool and queue;
+4. ~~(done in 20190119) BlockQueue~~;
+5. ~~(done in 20190119) customized thread pool and queue~~;
