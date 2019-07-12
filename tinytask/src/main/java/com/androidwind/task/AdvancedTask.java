@@ -42,7 +42,6 @@ public abstract class AdvancedTask<T> extends TaskCallable {
                     onFail(throwable);
                 }
             });
-        } finally {
             return null;
         }
     }

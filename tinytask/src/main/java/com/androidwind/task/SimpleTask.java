@@ -34,8 +34,7 @@ public abstract class SimpleTask<T> extends TaskCallable {
     @Override
     public T call() throws Exception {//give exception to get().
         System.out.println("[SimpleTask] compare: priority = " + getPriority() + ", taskName = " + getTaskName());
-        final T t = doInBackground();
-        return t;
+        return doInBackground();
     }
 
 }

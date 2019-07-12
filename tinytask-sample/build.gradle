@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "com.androidwind.task.sample"
         minSdkVersion 19
-        targetSdkVersion 21
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -32,7 +32,7 @@ dependencies {
     compile project(':tinytask')
 
 //    compile files('libs/tinylog.jar')
-    compile 'com.androidwind:tinylog:1.0.0'
+    compile 'com.androidwind:tinylog:1.0.1'
     compile 'com.airbnb.android:lottie:2.5.4'
 }
 
