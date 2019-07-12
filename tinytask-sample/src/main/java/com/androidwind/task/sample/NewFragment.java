@@ -67,7 +67,9 @@ public class NewFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getActivity(), "this is a toast, you know.", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_2:
+                TinyTaskExecutor.setUseFuture(true);
                 TinyTaskExecutor.check();
+                TinyTaskExecutor.clearFuture();
                 break;
             case R.id.btn_3:
                 TinyTaskExecutor.execute(new SimpleTask<String>() {

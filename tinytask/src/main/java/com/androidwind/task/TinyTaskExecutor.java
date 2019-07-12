@@ -30,7 +30,8 @@ public class TinyTaskExecutor {
     private static HashMap<Callable, Runnable> sDelayTasks = new HashMap<>();
 
     //collect futuretask
-    private static List futureList = new ArrayList<>();
+    private static boolean useFuture;
+    private static List<Future> futureList = new ArrayList<>();
     //task priority
     public static final int PRIORITY_HIGH = Process.THREAD_PRIORITY_DEFAULT;
     public static final int PRIORITY_NORMAL = Process.THREAD_PRIORITY_BACKGROUND;
@@ -74,8 +75,12 @@ public class TinyTaskExecutor {
     }
 
     public static void execute(final Callable callable, long delayMillisecond) {
-        if (callable == null) return;
-        if (delayMillisecond < 0) return;
+        if (callable == null) {
+            return;
+        }
+        if (delayMillisecond < 0) {
+            return;
+        }
 
         if (!getExecutor().isShutdown()) {
 //        Future<T> future = getInstance().executor.submit(callable);
@@ -109,7 +114,9 @@ public class TinyTaskExecutor {
     private static void realExecute(Callable callable) {
 //        ComparableFutureTask futureTask = new ComparableFutureTask(callable);
         Future future = getExecutor().submit(callable);
-        futureList.add(future);
+        if (useFuture) {
+            futureList.add(future);
+        }
         System.out.println("[TinyTaskExecutor] realExecute");
     }
 
@@ -170,7 +177,7 @@ public class TinyTaskExecutor {
      * @param delayMillis
      */
     public static void postToMainThread(final Runnable task, long delayMillis) {
-        if(task == null) {
+        if (task == null) {
             return;
         }
 
@@ -183,9 +190,26 @@ public class TinyTaskExecutor {
      * @param task
      */
     public static void removeMainThreadRunnable(Runnable task) {
-        if (task == null) return;
+        if (task == null) {
+            return;
+        }
 
         getMainThreadHandler().removeCallbacks(task);
     }
 
+    /**
+     * whether record future
+     *
+     * @param useFuture
+     */
+    public static void setUseFuture(boolean useFuture) {
+        TinyTaskExecutor.useFuture = useFuture;
+    }
+
+    /**
+     * clear future list
+     */
+    public static void clearFuture() {
+        futureList.clear();
+    }
 }
