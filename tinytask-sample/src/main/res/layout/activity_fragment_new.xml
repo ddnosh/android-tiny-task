@@ -7,6 +7,14 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TinyTask V1.x"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"/>
+
     <Button
         android:id="@+id/btn_1"
         android:layout_width="wrap_content"
