@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.androidwind.task.AdvancedTask;
+import com.androidwind.task.Task;
 import com.androidwind.task.TinyTaskExecutor;
 import com.androidwind.task.sample.onebyone.BaseSyncTask;
 import com.androidwind.task.sample.onebyone.TinySyncExecutor;
@@ -225,11 +225,11 @@ public class SynchronizedFragment extends Fragment implements View.OnClickListen
 //        }
 //    }
 //
-//    private TaskCallable mActive;
-//    private ArrayDeque<TaskCallable> mArrayDeque = new ArrayDeque<>();
+//    private TaskRunnable mActive;
+//    private ArrayDeque<TaskRunnable> mArrayDeque = new ArrayDeque<>();
 //
 //    public synchronized void execute(final SimpleTask task) {
-//        mArrayDeque.offer(new TaskCallable() {
+//        mArrayDeque.offer(new TaskRunnable() {
 //            @Override
 //            public Object call() throws Exception {
 //                try {
@@ -270,11 +270,11 @@ public class SynchronizedFragment extends Fragment implements View.OnClickListen
 //        }
 //    }
 //
-//    private TaskCallable mActive;
-//    private ArrayDeque<TaskCallable> mArrayDeque = new ArrayDeque<>();
+//    private TaskRunnable mActive;
+//    private ArrayDeque<TaskRunnable> mArrayDeque = new ArrayDeque<>();
 //
 //    public synchronized void execute1(final Runnable r) {
-//        mArrayDeque.offer(new TaskCallable() {
+//        mArrayDeque.offer(new TaskRunnable() {
 //            @Override
 //            public Object call() throws Exception {
 //                try {
@@ -326,11 +326,11 @@ public class SynchronizedFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    private AdvancedTask mActive;
-    private ArrayDeque<AdvancedTask> mArrayDeque = new ArrayDeque<>();
+    private Task mActive;
+    private ArrayDeque<Task> mArrayDeque = new ArrayDeque<>();
 
     public synchronized void execute1(final TaskCallBack callBack) {
-        mArrayDeque.offer(new AdvancedTask() {
+        mArrayDeque.offer(new Task() {
             @Override
             public Object doInBackground() {
                 callBack.onBackground();

@@ -1,6 +1,6 @@
 package com.androidwind.task.sample.onebyone;
 
-import com.androidwind.task.AdvancedTask;
+import com.androidwind.task.Task;
 import com.androidwind.task.TinyTaskExecutor;
 
 import java.util.ArrayDeque;
@@ -33,7 +33,7 @@ public class TinySyncExecutor {
         currentTask = pendingQueue.poll();
         if (currentTask != null) {
             System.out.println("[OneByOne]executing currentTask id = :" + currentTask.getId());
-            TinyTaskExecutor.execute(new AdvancedTask() {
+            TinyTaskExecutor.execute(new Task() {
                 @Override
                 public Object doInBackground() {
                     System.out.println("[OneByOne]doInBackground, " + "the current thread id = " + Thread.currentThread().getId());

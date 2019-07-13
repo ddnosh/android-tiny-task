@@ -4,18 +4,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author ddnosh
@@ -27,14 +17,7 @@ public class TinyTaskExecutor {
 
     private ExecutorService mExecutor;
     private volatile Handler mMainThreadHandler = new Handler(Looper.getMainLooper());
-    private static HashMap<Callable, Runnable> sDelayTasks = new HashMap<>();
-
-    //collect futuretask
-    private static List futureList = new ArrayList<>();
-    //task priority
-    public static final int PRIORITY_HIGH = Process.THREAD_PRIORITY_DEFAULT;
-    public static final int PRIORITY_NORMAL = Process.THREAD_PRIORITY_BACKGROUND;
-    public static final int PRIORITY_LOWEST = Process.THREAD_PRIORITY_LOWEST;
+    private static HashMap<Runnable, Runnable> sDelayTasks = new HashMap<>();
 
     public static TinyTaskExecutor getInstance() {
         if (sTinyTaskExecutor == null) {
@@ -46,14 +29,7 @@ public class TinyTaskExecutor {
     }
 
     public TinyTaskExecutor() {
-//        mExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        mExecutor = new TaskThreadPoolExecutor(
-                Runtime.getRuntime().availableProcessors(),
-                Runtime.getRuntime().availableProcessors(),
-                Long.MAX_VALUE, /* timeout */
-                TimeUnit.NANOSECONDS,
-                new PriorityBlockingQueue<Runnable>(),
-                new ThreadPoolExecutor.DiscardOldestPolicy());
+        mExecutor = new TaskThreadPoolExecutor(true);
     }
 
     private static ExecutorService getExecutor() {
@@ -64,39 +40,37 @@ public class TinyTaskExecutor {
         return getInstance().mMainThreadHandler;
     }
 
-    /**
-     * add task
-     *
-     * @param callable
-     */
-    public static void execute(TaskCallable callable) {
-        execute(callable, 0);
+    public static void execute(Runnable runnable) {
+        execute(runnable, 0);
     }
 
-    public static void execute(final Callable callable, long delayMillisecond) {
-        if (callable == null) return;
-        if (delayMillisecond < 0) return;
+    public static void execute(final Runnable runnable, long delayMillisecond) {
+        if (runnable == null) {
+            return;
+        }
+        if (delayMillisecond < 0) {
+            return;
+        }
 
         if (!getExecutor().isShutdown()) {
-//        Future<T> future = getInstance().executor.submit(callable);
-
             if (delayMillisecond > 0) {
                 Runnable delayRunnable = new Runnable() {
                     @Override
                     public void run() {
                         synchronized (sDelayTasks) {
-                            sDelayTasks.remove(callable);
+                            sDelayTasks.remove(runnable);
                         }
-                        realExecute(callable);
+                        realExecute(runnable);
                     }
                 };
 
                 synchronized (sDelayTasks) {
-                    sDelayTasks.put(callable, delayRunnable);
+                    sDelayTasks.put(runnable, delayRunnable);
                 }
+
                 getMainThreadHandler().postDelayed(delayRunnable, delayMillisecond);
             } else {
-                realExecute(callable);
+                realExecute(runnable);
             }
         }
     }
@@ -104,54 +78,32 @@ public class TinyTaskExecutor {
     /**
      * real executor
      *
-     * @param callable
+     * @param runnable
      */
-    private static void realExecute(Callable callable) {
-//        ComparableFutureTask futureTask = new ComparableFutureTask(callable);
-        Future future = getExecutor().submit(callable);
-        futureList.add(future);
+    private static void realExecute(Runnable runnable) {
+        getExecutor().execute(runnable);
         System.out.println("[TinyTaskExecutor] realExecute");
     }
 
     /**
      * remove task
      *
-     * @param callable
+     * @param runnable
      */
-    public static void removeTask(final Callable callable) {
-        if (callable == null) {
+    public static void removeTask(final Runnable runnable) {
+        if (runnable == null) {
             return;
         }
 
         Runnable delayRunnable;
         synchronized (sDelayTasks) {
-            delayRunnable = sDelayTasks.remove(callable);
+            delayRunnable = sDelayTasks.remove(runnable);
         }
 
         if (delayRunnable != null) {
             getMainThreadHandler().removeCallbacks(delayRunnable);
         }
 
-    }
-
-    /**
-     * check the future result, will block main thread, be careful.
-     */
-    public static void check() {
-        for (Iterator it = futureList.iterator(); it.hasNext(); ) {
-            FutureTask ft = (FutureTask) it.next();
-            if (!ft.isDone()) {
-                try {
-                    //if use get(), you will block main thread util the sub thread finished, unless you need the result of sub thread.
-                    System.out.println("[TinyTaskExecutor] the check result is: " + ft.get());
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                it.remove();
-            }
-        }
     }
 
     /**
@@ -170,7 +122,7 @@ public class TinyTaskExecutor {
      * @param delayMillis
      */
     public static void postToMainThread(final Runnable task, long delayMillis) {
-        if(task == null) {
+        if (task == null) {
             return;
         }
 
@@ -183,9 +135,19 @@ public class TinyTaskExecutor {
      * @param task
      */
     public static void removeMainThreadRunnable(Runnable task) {
-        if (task == null) return;
+        if (task == null) {
+            return;
+        }
 
         getMainThreadHandler().removeCallbacks(task);
     }
 
+    /**
+     * check current thread is main thread or not
+     *
+     * @return
+     */
+    public static boolean isMainThread() {
+        return Thread.currentThread()== getInstance().mMainThreadHandler.getLooper().getThread();
+    }
 }

@@ -4,17 +4,12 @@ package com.androidwind.task;
  * @author ddnosh
  * @website http://blog.csdn.net/ddnosh
  */
-public abstract class AdvancedTask<T> extends TaskCallable {
-
-    public AdvancedTask() {
+public abstract class Task<T> extends TaskRunnable {
+    public Task() {
     }
 
-    public AdvancedTask(int priority) {
+    public Task(Priority priority) {
         super(priority);
-    }
-
-    public AdvancedTask(int priority, String taskName) {
-        super(priority, taskName);
     }
 
     public abstract T doInBackground();
@@ -24,8 +19,8 @@ public abstract class AdvancedTask<T> extends TaskCallable {
     public abstract void onFail(Throwable throwable);
 
     @Override
-    public T call() throws Exception {//give exception to get().
-        System.out.println("[AdvancedTask] compare: priority = " + getPriority() + ", taskName = " + getTaskName());
+    public void run() {
+        // System.out.println("[Task] compare: priority = " + getPriority() + ", taskName = " + getTaskName());
         try {
             final T t = doInBackground();
             TinyTaskExecutor.getMainThreadHandler().post(new Runnable() {
@@ -34,7 +29,6 @@ public abstract class AdvancedTask<T> extends TaskCallable {
                     onSuccess(t);
                 }
             });
-            return t;
         } catch (final Throwable throwable) {
             TinyTaskExecutor.getMainThreadHandler().post(new Runnable() {
                 @Override
@@ -42,7 +36,6 @@ public abstract class AdvancedTask<T> extends TaskCallable {
                     onFail(throwable);
                 }
             });
-            return null;
         }
     }
 }
