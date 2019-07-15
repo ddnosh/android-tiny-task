@@ -1,10 +1,12 @@
 package com.androidwind.task;
 
 /**
+ * run in background and then callback in main
+ *
  * @author ddnosh
  * @website http://blog.csdn.net/ddnosh
  */
-public abstract class Task<T> extends TaskRunnable {
+public abstract class Task<T> extends BaseTask {
     public Task() {
     }
 

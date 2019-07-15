@@ -9,9 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.androidwind.task.BaseTask;
 import com.androidwind.task.Priority;
+import com.androidwind.task.SimpleTask;
 import com.androidwind.task.Task;
-import com.androidwind.task.TaskRunnable;
 import com.androidwind.task.TinyTaskExecutor;
 
 /**
@@ -33,8 +34,8 @@ public class NewFragment extends Fragment implements View.OnClickListener {
         Button btn1 = view.findViewById(R.id.btn_1);
         btn1.setOnClickListener(this);
 
-        // Button btn2 = view.findViewById(R.id.btn_2);
-        // btn2.setOnClickListener(this);
+        Button btn2 = view.findViewById(R.id.btn_2);
+        btn2.setOnClickListener(this);
 
         Button btn3 = view.findViewById(R.id.btn_3);
         btn3.setOnClickListener(this);
@@ -68,14 +69,12 @@ public class NewFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_1:
                 Toast.makeText(getActivity(), "this is a toast, you know.", Toast.LENGTH_SHORT).show();
                 break;
-            // case R.id.btn_2:
-            //     break;
-            case R.id.btn_3:
+            case R.id.btn_2:
                 TinyTaskExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
                         System.out.println("[new] thread id in tinytask: " + Thread.currentThread().getId() +
-                                ", is main thread:" +  TinyTaskExecutor.isMainThread());
+                                ", is main thread:" + TinyTaskExecutor.isMainThread());
                         try {
                             Thread.sleep(5000);
                         } catch (InterruptedException e) {
@@ -85,8 +84,33 @@ public class NewFragment extends Fragment implements View.OnClickListener {
                     }
                 });
                 break;
+            case R.id.btn_3:
+                TinyTaskExecutor.execute(new Task<String>() { //default priority is Priority.LOW
+                    @Override
+                    public String doInBackground() {
+                        System.out.println("[new] thread id in tinytask: " + Thread.currentThread().getId());
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("[new] with callback after 5 sec");
+                        return "task with sleep 5 sec";
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFail(Throwable throwable) {
+
+                    }
+                });
+                break;
             case R.id.btn_4:
-                TinyTaskExecutor.execute(new Task<String>() {
+                TinyTaskExecutor.execute(new Task<String>(Priority.NORMAL) {
                     @Override
                     public String doInBackground() {
                         System.out.println("[new] thread id in tinytask: " + Thread.currentThread().getId());
@@ -128,26 +152,35 @@ public class NewFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_9:
                 System.out.println("[new] priority test");
-                TaskRunnable s1 = new TestTask(Priority.LOW);
-                TaskRunnable s2 = new TestTask(Priority.NORMAL);
-                TaskRunnable s3 = new TestTask(Priority.HIGH);
-                TaskRunnable s4 = new TestTask(Priority.LOW);
-                TaskRunnable s5 = new TestTask(Priority.NORMAL);
-                TaskRunnable s6 = new TestTask(Priority.HIGH);
-                TaskRunnable s7 = new TestTask(Priority.LOW);
-                TaskRunnable s8 = new TestTask(Priority.NORMAL);
-                TaskRunnable s9 = new TestTask(Priority.HIGH);
-                TaskRunnable s10 = new TestTask(Priority.LOW);
-                TinyTaskExecutor.execute(s1);
-                TinyTaskExecutor.execute(s2);
-                TinyTaskExecutor.execute(s3);
-                TinyTaskExecutor.execute(s4);
-                TinyTaskExecutor.execute(s5);
-                TinyTaskExecutor.execute(s6);
-                TinyTaskExecutor.execute(s7);
-                TinyTaskExecutor.execute(s8);
-                TinyTaskExecutor.execute(s9);
-                TinyTaskExecutor.execute(s10);
+                for (int i = 0; i < 50; i++) {
+                    BaseTask priorityRunnable;
+                    if (i % 3 == 1) {
+                        priorityRunnable = new SimpleTask<String>(Priority.HIGH) {
+
+                            @Override
+                            public void run() {
+                                System.out.println("[new] " + Thread.currentThread().getName() + "Priority.HIGH");
+                            }
+                        };
+                    } else if (i % 5 == 0) {
+                        priorityRunnable = new SimpleTask<String>(Priority.LOW) {
+
+                            @Override
+                            public void run() {
+                                System.out.println("[new] " + Thread.currentThread().getName() + "Priority.LOW");
+                            }
+                        };
+                    } else {
+                        priorityRunnable = new SimpleTask<String>(Priority.NORMAL) {
+
+                            @Override
+                            public void run() {
+                                System.out.println("[new] " + Thread.currentThread().getName() + "Priority.NORMAL");
+                            }
+                        };
+                    }
+                    TinyTaskExecutor.execute(priorityRunnable);
+                }
                 break;
         }
     }
@@ -183,7 +216,7 @@ public class NewFragment extends Fragment implements View.OnClickListener {
         }
     };
 
-    class TestTask extends TaskRunnable {
+    class TestTask extends BaseTask {
         public TestTask(Priority priority) {
             super(priority);
         }

@@ -35,9 +35,9 @@ public class TaskThreadPoolExecutor extends ThreadPoolExecutor {
     private static final Comparator<Runnable> FIFO = new Comparator<Runnable>() {
         @Override
         public int compare(Runnable lhs, Runnable rhs) {
-            if (lhs instanceof TaskRunnable && rhs instanceof TaskRunnable) {
-                TaskRunnable lpr = ((TaskRunnable) lhs);
-                TaskRunnable rpr = ((TaskRunnable) rhs);
+            if (lhs instanceof BaseTask && rhs instanceof BaseTask) {
+                BaseTask lpr = ((BaseTask) lhs);
+                BaseTask rpr = ((BaseTask) rhs);
                 int result = lpr.priority.ordinal() - rpr.priority.ordinal();
                 return result == 0 ? (int) (lpr.SEQ - rpr.SEQ) : result;
             } else {
@@ -52,9 +52,9 @@ public class TaskThreadPoolExecutor extends ThreadPoolExecutor {
     private static final Comparator<Runnable> LIFO = new Comparator<Runnable>() {
         @Override
         public int compare(Runnable lhs, Runnable rhs) {
-            if (lhs instanceof TaskRunnable && rhs instanceof TaskRunnable) {
-                TaskRunnable lpr = ((TaskRunnable) lhs);
-                TaskRunnable rpr = ((TaskRunnable) rhs);
+            if (lhs instanceof BaseTask && rhs instanceof BaseTask) {
+                BaseTask lpr = ((BaseTask) lhs);
+                BaseTask rpr = ((BaseTask) rhs);
                 int result = lpr.priority.ordinal() - rpr.priority.ordinal();
                 return result == 0 ? (int) (rpr.SEQ - lpr.SEQ) : result;
             } else {
@@ -81,8 +81,8 @@ public class TaskThreadPoolExecutor extends ThreadPoolExecutor {
 
     @Override
     public void execute(Runnable runnable) {
-        if (runnable instanceof TaskRunnable) {
-            ((TaskRunnable) runnable).SEQ = SEQ_SEED.getAndIncrement();
+        if (runnable instanceof BaseTask) {
+            ((BaseTask) runnable).SEQ = SEQ_SEED.getAndIncrement();
         }
         super.execute(runnable);
     }

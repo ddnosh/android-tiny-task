@@ -22,26 +22,26 @@
         android:textAllCaps="false"
         android:text="Just a toast!"/>
 
-    <!--<Button-->
-        <!--android:id="@+id/btn_2"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textAllCaps="false"-->
-        <!--android:text="check task"/>-->
-
     <Button
-        android:id="@+id/btn_3"
+        android:id="@+id/btn_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         android:text="TinyTask: no callback"/>
 
     <Button
-        android:id="@+id/btn_4"
+        android:id="@+id/btn_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         android:text="TinyTask: with callback"/>
+
+    <Button
+        android:id="@+id/btn_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="TinyTask: with callback and priority"/>
 
     <Button
         android:id="@+id/btn_5"
