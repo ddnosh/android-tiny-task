@@ -6,7 +6,7 @@ package com.androidwind.task;
  * @author ddnosh
  * @website http://blog.csdn.net/ddnosh
  */
-public abstract class Task<T> extends BaseTask {
+public abstract class Task<T> extends SimpleTask {
     public Task() {
     }
 

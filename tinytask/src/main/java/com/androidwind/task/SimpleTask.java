@@ -1,17 +1,20 @@
 package com.androidwind.task;
 
 /**
- * run in background
- *
  * @author ddnosh
  * @website http://blog.csdn.net/ddnosh
  */
-public abstract class SimpleTask<T> extends BaseTask {
+public abstract class SimpleTask implements Runnable {
+    long SEQ; // the identity for task
+
+    public String taskName;
+
+    public Priority priority;
+
     public SimpleTask() {
     }
 
     public SimpleTask(Priority priority) {
-        super(priority);
+        this.priority = priority;
     }
-
 }

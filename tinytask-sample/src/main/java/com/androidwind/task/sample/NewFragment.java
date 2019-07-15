@@ -2,16 +2,14 @@ package com.androidwind.task.sample;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.androidwind.task.BaseTask;
-import com.androidwind.task.Priority;
 import com.androidwind.task.SimpleTask;
+import com.androidwind.task.Priority;
 import com.androidwind.task.Task;
 import com.androidwind.task.TinyTaskExecutor;
 
@@ -153,9 +151,9 @@ public class NewFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_9:
                 System.out.println("[new] priority test");
                 for (int i = 0; i < 50; i++) {
-                    BaseTask priorityRunnable;
+                    SimpleTask priorityRunnable;
                     if (i % 3 == 1) {
-                        priorityRunnable = new SimpleTask<String>(Priority.HIGH) {
+                        priorityRunnable = new SimpleTask(Priority.HIGH) {
 
                             @Override
                             public void run() {
@@ -163,7 +161,7 @@ public class NewFragment extends Fragment implements View.OnClickListener {
                             }
                         };
                     } else if (i % 5 == 0) {
-                        priorityRunnable = new SimpleTask<String>(Priority.LOW) {
+                        priorityRunnable = new SimpleTask(Priority.LOW) {
 
                             @Override
                             public void run() {
@@ -171,7 +169,7 @@ public class NewFragment extends Fragment implements View.OnClickListener {
                             }
                         };
                     } else {
-                        priorityRunnable = new SimpleTask<String>(Priority.NORMAL) {
+                        priorityRunnable = new SimpleTask(Priority.NORMAL) {
 
                             @Override
                             public void run() {
@@ -216,7 +214,7 @@ public class NewFragment extends Fragment implements View.OnClickListener {
         }
     };
 
-    class TestTask extends BaseTask {
+    class TestTask extends SimpleTask {
         public TestTask(Priority priority) {
             super(priority);
         }
