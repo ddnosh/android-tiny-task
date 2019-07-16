@@ -14,6 +14,8 @@ import com.androidwind.task.Task;
 import com.androidwind.task.TinyTaskExecutor;
 
 /**
+ * v2.x
+ *
  * @author ddnosh
  * @website http://blog.csdn.net/ddnosh
  */

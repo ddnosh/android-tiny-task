@@ -2,7 +2,6 @@ package com.androidwind.task;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Process;
 
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
@@ -82,7 +81,6 @@ public class TinyTaskExecutor {
      */
     private static void realExecute(Runnable runnable) {
         getExecutor().execute(runnable);
-        System.out.println("[TinyTaskExecutor] realExecute");
     }
 
     /**
@@ -148,6 +146,6 @@ public class TinyTaskExecutor {
      * @return
      */
     public static boolean isMainThread() {
-        return Thread.currentThread()== getInstance().mMainThreadHandler.getLooper().getThread();
+        return Thread.currentThread() == getInstance().mMainThreadHandler.getLooper().getThread();
     }
 }

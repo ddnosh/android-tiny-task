@@ -18,7 +18,7 @@ public class TaskThreadPoolExecutor extends ThreadPoolExecutor {
     private static final int CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors();
     private static final int MAXIMUM_POOL_SIZE = 128;
     private static final int KEEP_ALIVE = 60;
-    private static final AtomicLong SEQ_SEED = new AtomicLong(0);//主要获取添加任务
+    private static final AtomicLong SEQ_SEED = new AtomicLong(0);
 
     private static final ThreadFactory sThreadFactory = new ThreadFactory() {
         private final AtomicInteger mCount = new AtomicInteger(1);

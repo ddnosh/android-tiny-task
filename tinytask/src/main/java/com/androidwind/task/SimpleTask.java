@@ -12,9 +12,10 @@ public abstract class SimpleTask implements Runnable {
     public Priority priority;
 
     public SimpleTask() {
+        priority = Priority.NORMAL;
     }
 
     public SimpleTask(Priority priority) {
-        this.priority = priority;
+        this.priority = priority == null ? Priority.NORMAL : priority;
     }
 }

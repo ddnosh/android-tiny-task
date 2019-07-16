@@ -1,5 +1,7 @@
 package com.androidwind.task;
 
+import android.util.Log;
+
 /**
  * run in background and then callback in main
  *
@@ -8,6 +10,7 @@ package com.androidwind.task;
  */
 public abstract class Task<T> extends SimpleTask {
     public Task() {
+        super();
     }
 
     public Task(Priority priority) {
@@ -22,7 +25,7 @@ public abstract class Task<T> extends SimpleTask {
 
     @Override
     public void run() {
-        // System.out.println("[Task] compare: priority = " + getPriority() + ", taskName = " + getTaskName());
+        // Log.i("TinyTask", "[Task] compare: priority = " + priority + ", taskName = " + Thread.currentThread().getName());
         try {
             final T t = doInBackground();
             TinyTaskExecutor.getMainThreadHandler().post(new Runnable() {
