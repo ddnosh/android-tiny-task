@@ -85,7 +85,7 @@ public class NewFragment extends Fragment implements View.OnClickListener {
                 });
                 break;
             case R.id.btn_3:
-                TinyTaskExecutor.execute(new Task<String>() { //default priority is Priority.LOW
+                TinyTaskExecutor.execute(new Task<String>() { //default priority is Priority.NORMAL
                     @Override
                     public String doInBackground() {
                         System.out.println("[new] thread id in tinytask: " + Thread.currentThread().getId());

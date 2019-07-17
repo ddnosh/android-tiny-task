@@ -25,7 +25,9 @@ public abstract class Task<T> extends SimpleTask {
 
     @Override
     public void run() {
-        // Log.i("TinyTask", "[Task] compare: priority = " + priority + ", taskName = " + Thread.currentThread().getName());
+        if (BuildConfig.DEBUG) {
+            Log.i("TinyTask", "[Task] compare: priority = " + priority + ", taskName = " + Thread.currentThread().getName());
+        }
         try {
             final T t = doInBackground();
             TinyTaskExecutor.getMainThreadHandler().post(new Runnable() {
