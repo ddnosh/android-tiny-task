@@ -159,7 +159,7 @@ public class OldFragment extends Fragment implements View.OnClickListener {
         HandlerThread myHandlerThread = new HandlerThread("handler-thread");
         myHandlerThread.start();
         Handler handler = new Handler(myHandlerThread.getLooper());
-        handler.post(mRunnable4);
+        handler.postDelayed(mRunnable4, 5000);
     }
 
     private Runnable mRunnable4 = new Runnable() {
@@ -204,7 +204,6 @@ public class OldFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mHandler.removeCallbacks(mRunnable2);
         mHandler.removeCallbacks(mRunnable4);
     }
 }

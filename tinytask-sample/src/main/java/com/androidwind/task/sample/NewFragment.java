@@ -1,5 +1,6 @@
 package com.androidwind.task.sample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -68,6 +69,7 @@ public class NewFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_1:
                 Toast.makeText(getActivity(), "this is a toast, you know.", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), TestActivity.class));
                 break;
             case R.id.btn_2:
                 TinyTaskExecutor.execute(new Runnable() {
